@@ -1,0 +1,40 @@
+services:
+    php:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+            args:
+                TIMEZONE: ${TIMEZONE}
+        container_name: sf6_php2
+        volumes:
+            - .:/var/www/webapp/
+        networks:
+            - symfony
+    nginx:
+        build:
+            context: .
+            dockerfile: docker/nginx/Dockerfile
+        container_name: sf6_nginx2
+        volumes:
+            - .:/var/www/webapp/
+        ports:
+            - 80:80
+        networks:
+            - symfony
+  
+      #MySQL Service
+    db:
+      image: mysql:8.0
+      command: --default-authentication-plugin=mysql_native_password
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      ports:
+        - "3306:3306"
+      networks:
+        - symfony
+networks:
+    symfony:
