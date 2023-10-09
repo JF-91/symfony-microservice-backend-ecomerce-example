@@ -5,7 +5,7 @@ services:
             dockerfile: docker/php/Dockerfile
             args:
                 TIMEZONE: ${TIMEZONE}
-        container_name: sf6_php2
+        container_name: sf6.1_php2
         volumes:
             - .:/var/www/webapp/
         networks:
@@ -14,7 +14,7 @@ services:
         build:
             context: .
             dockerfile: docker/nginx/Dockerfile
-        container_name: sf6_nginx2
+        container_name: sf6.1_nginx2
         volumes:
             - .:/var/www/webapp/
         ports:
