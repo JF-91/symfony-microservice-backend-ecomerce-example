@@ -30,7 +30,6 @@ class Product
     #[Assert\NotBlank]
     private string $name;
 
-
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
@@ -45,6 +44,14 @@ class Product
     #[ORM\Column]
     #[Assert\NotBlank]
     private ?int $mount;
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    private ?bool $isAvailable;
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    private ?bool $isDeleted;
 
     public function getId(): ?int
     {
@@ -120,6 +127,30 @@ class Product
     public function setProductCategory(ProductsCategory $productCategory): static
     {
         $this->productCategory = $productCategory;
+
+        return $this;
+    }
+
+    public function isIsAvailable(): ?bool
+    {
+        return $this->isAvailable;
+    }
+
+    public function setIsAvailable(bool $isAvailable): static
+    {
+        $this->isAvailable = $isAvailable;
+
+        return $this;
+    }
+
+    public function isIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }
