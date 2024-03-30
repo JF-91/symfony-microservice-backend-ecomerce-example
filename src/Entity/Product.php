@@ -53,6 +53,9 @@ class Product
     #[Assert\NotBlank]
     private ?bool $isDeleted;
 
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
+    private Category $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -151,6 +154,18 @@ class Product
     public function setIsDeleted(bool $isDeleted): static
     {
         $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

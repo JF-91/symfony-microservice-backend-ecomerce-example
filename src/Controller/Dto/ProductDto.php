@@ -1,13 +1,14 @@
 <?php 
 namespace App\Controller\Dto;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Enums\ProductsCategory;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ProductDto {
 
-    
+
     public ?int $id;
 
     #[Assert\NotBlank]
@@ -31,6 +32,8 @@ class ProductDto {
     #[Assert\NotBlank]
     public bool $isDeleted;
 
+    public Category $category;
+
     public static function fromEntity(Product $product): self
     {
         $dto = new self();
@@ -42,6 +45,7 @@ class ProductDto {
         $dto->mount = $product->getMount();
         $dto->isAvailable = $product->isIsAvailable();
         $dto->isDeleted = $product->isIsDeleted();
+        $dto->category = $product->getCategory();
         return $dto;
     }
 }

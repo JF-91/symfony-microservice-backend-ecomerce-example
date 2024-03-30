@@ -2,22 +2,11 @@
 namespace App\Services;
 
 use App\Controller\Dto\ProductDto;
-use App\Enums\ProductsCategory;
+use App\Controller\Dto\CategoryDto;
+use App\Entity\Category;
 use App\Entity\Product;
 
 class ProductDtoMapper {
-    // public static function convertToDto(ProductDto $dto): Product
-    // {
-    //     $product = new Product();
-    //     $product->setProductCategory($dto->productCategory);
-    //     $product->setName($dto->name);
-    //     $product->setPrice($dto->price);
-    //     $product->setDescription($dto->description);
-    //     $product->setMount($dto->mount);
-    //     $product->setIsAvailable($dto->isAvailable);
-    //     $product->setIsDeleted($dto->isDeleted);
-    //     return $product;
-    // }
 
     public static function convertToDtoFromProduct(Product $product): ProductDto
 {
@@ -43,5 +32,24 @@ class ProductDtoMapper {
         $product->setIsAvailable($dto->isAvailable);
         $product->setIsDeleted($dto->isDeleted);
         return $product;
+    }
+
+    public static function convertToDtoFromCategory(Category $category): CategoryDto
+    {
+        $dto = new CategoryDto();
+        $dto->id = $category->getId();
+        $dto->name = $category->getName();
+        $dto->isDeleted = $category->isIsDeleted();
+        $dto->productCategory = $category->getProductCategory();
+        return $dto;
+    }
+
+    public static function convertToCategoryFromDto(CategoryDto $dto): Category
+    {
+        $category = new Category();
+        $category->setName($dto->name);
+        $category->setIsDeleted($dto->isDeleted);
+        $category->setProductCategory($dto->productCategory);
+        return $category;
     }
 }
