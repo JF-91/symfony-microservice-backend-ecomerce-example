@@ -18,6 +18,7 @@ class ProductDtoMapper {
     $dto->mount = $product->getMount();
     $dto->isAvailable = $product->isIsAvailable();
     $dto->isDeleted = $product->isIsDeleted();
+
     return $dto;
 }
 
@@ -31,6 +32,7 @@ class ProductDtoMapper {
         $product->setMount($dto->mount);
         $product->setIsAvailable($dto->isAvailable);
         $product->setIsDeleted($dto->isDeleted);
+
         return $product;
     }
 

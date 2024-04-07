@@ -57,9 +57,11 @@ class ProductController extends AbstractController
     {
        try {
         $products = $this->repository->findAll();
+
         $productsDTOs = array_map(function($product){
             return $this->productDtoMapper->convertToDtoFromProduct($product);
         }, $products);
+
 
         $data = $this->serializationService->serialize($productsDTOs);
 
