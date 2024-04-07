@@ -13,7 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api', name: 'app_category')]
 
-class CategoryController extends AbstractController
+class CategoryController
+ extends AbstractController
 {
     private $manager;
     private $repository;
