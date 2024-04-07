@@ -4,6 +4,7 @@ namespace App\Entity;
 use App\Enums\ProductsCategory;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,6 +18,8 @@ class Category {
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
+    #[Assert\Unique]
     private string $name;
 
     #[ORM\Column]
@@ -24,6 +27,8 @@ class Category {
     private bool $isDeleted;
 
     #[ORM\Column(type: 'string', length: 255, enumType: ProductsCategory::class)]
+    #[Assert\NotBlank]
+    #[Assert\Unique]
     private ProductsCategory $productCategory;
 
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'category')]
@@ -96,6 +101,16 @@ class Category {
         }
 
         return $this;
+    }
+
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function setProducts($products): void
+    {
+        $this->products = $products;
     }
 
 

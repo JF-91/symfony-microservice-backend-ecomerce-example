@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller;
 
+use App\Controller\Dto\CategoryDto;
+use App\Entity\Category;
+use App\Enums\ProductsCategory;
 use App\Repository\CategoryRepository;
 use App\Services\ProductDtoMapper;
 use App\Services\SerializationService;
@@ -74,8 +77,14 @@ class CategoryController
     public function createCategory( Request $request ): JsonResponse
     {
         try {
+            //refactor to dto
             $data = json_decode($request->getContent(), true);
-            $category = $this->categoryMapper->convertToCategoryFromDto($data);
+            $categoryDto = new CategoryDto();
+            $categoryDto->name = $data['name'];
+            $categoryDto->isDeleted = $data['isDeleted'];
+            $categoryDto->productCategory = ProductsCategory::from($data['productCategory']);
+
+            $category = $this->categoryMapper->convertToCategoryFromDto($categoryDto);
             $this->manager->persist($category);
             $this->manager->flush();
             $categoryDto = $this->categoryMapper->convertToDtoFromCategory($category);
@@ -115,6 +124,12 @@ class CategoryController
             if(!$category){
                 return new JsonResponse("Category not found", Response::HTTP_NOT_FOUND);
             }
+ # co       
+            foreach ($category->getProducts() as $product) {
+                $this->manager->remove($product);
+            }
+                 
+           
             $this->manager->remove($category);
             $this->manager->flush();
             return new JsonResponse("Category deleted successfully", Response::HTTP_OK);
